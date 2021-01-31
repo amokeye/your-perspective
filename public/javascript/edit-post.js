@@ -1,3 +1,4 @@
+// Await api fetch for post `id`
 async function editFormHandler(event) {
     event.preventDefault();
 
