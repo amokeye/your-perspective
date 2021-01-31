@@ -18,4 +18,4 @@ async function deleteFormHandler(event) {
 
 }
 
-document.querySelector('pendingbuttonname').addEventListener('click', deleteFormHandler);
+// add query selector
