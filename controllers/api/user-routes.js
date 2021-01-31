@@ -55,7 +55,6 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {
     User.create({
         username: req.body.username,
-        email: req.body.email,
         password: req.body.password
     }).then(newUser => {
         req.session.save(() => {
@@ -74,11 +73,11 @@ router.post('/', (req, res) => {
 router.post('/login', (req, res) => {
     User.findOne({
         where: {
-            email: req.body.email
+            username: req.body.username
         }
     }).then(userInfo => {
         if (!userInfo) {
-            res.status(400).json({ message: 'No account found with email entered.' });
+            res.status(400).json({ message: 'No account found with username entered.' });
             return;
         }
         const validPassword = userInfo.checkPassword(req.body.password);
