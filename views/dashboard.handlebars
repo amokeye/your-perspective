@@ -1,0 +1,14 @@
+{{#if loggedIn}}
+<article class="posts list-group">
+    {{#each posts}}
+    <div class="list-group-item d-flex justify-content-between align-items-center bg-dark">
+        <a href="/dashboard/post/{{id}}" class="lead text-white">{{title}}</a>
+        <a href="/dashboard/edit/{{id}}" class="lead text-white">Edit Post</a>
+        <span class="post-meta text-white">Created at {{format_date created_at}}</span>
+    </div>
+    <div class="list-group-item d-flex justify-content-between align-items-center">
+        {{content}}
+    </div>
+    {{/each}}
+</article>
+{{/if}}

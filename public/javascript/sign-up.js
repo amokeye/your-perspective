@@ -1,7 +1,6 @@
 async function signupFormHandler(event) {
     event.preventDefault();
   
-    // Revisit these (handlebars)
     const username = document.querySelector('#username-signup').value.trim();
     const password = document.querySelector('#password-signup').value.trim();
   
@@ -24,4 +23,4 @@ async function signupFormHandler(event) {
     }
 }
 
-// add event handler
+document.querySelector('.signup-form').addEventListener('submit', signupFormHandler);

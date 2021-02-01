@@ -26,8 +26,7 @@ async function signupFormHandler(event) {
 // Await api fetch so that user can login
 async function loginFormHandler(event) {
     event.preventDefault();
-
-    // Revisit these
+    
     const username = document.querySelector('#username-login').value.trim();
     const password = document.querySelector('#password-login').value.trim();
 
@@ -49,4 +48,4 @@ async function loginFormHandler(event) {
     }
 }
 
-// Add login and sign up even handlers
+document.querySelector('.login-form').addEventListener('submit', loginFormHandler);

@@ -15,4 +15,4 @@ async function logout() {
 // Log user out after 10 minutes
 setInterval(logout, 600000);
 
-// add event handler
+document.querySelector('#logout').addEventListener('click', logout);

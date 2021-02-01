@@ -52,7 +52,7 @@ router.get('/:id', (req, res) => {
 });
 
 // POST (create) new user
-router.post('/', (req, res) => {
+router.post('/signup', (req, res) => {
     User.create({
         username: req.body.username,
         password: req.body.password
@@ -111,12 +111,12 @@ router.delete('/:id', (req, res) => {
         where: {
             id: req.params.id
         }
-    }).then(user2Delete => {
-        if (!user2Delete) {
+    }).then(userToDelete => {
+        if (!userToDelete) {
             res.status(404).json({ message: 'Invalid id; no matching user found.' });
             return;
         }
-        res.json(user2Delete);
+        res.json(userToDelete);
     }).catch(error => {
         console.log(error);
         res.status(500).json(error);

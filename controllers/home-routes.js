@@ -31,32 +31,13 @@ router.get('/', (req, res) => {
             posts,
             loggedIn: req.session.loggedIn
         });
-    })
-        .catch(error => {
+    }).catch(error => {
             console.log(error);
             res.status(500).json(error);
         });
 });
 
-// Routes user to login if session not in place (otherwise, directs user back to dashboard)
-router.get('/login', (req, res) => {
-    if (req.session.loggedIn) {
-        res.redirect('/dashboard');
-        return;
-    }
-    res.render('login');
-});
-
-// Routes user to home page if signed up/logged in (redirected to signup, otherwise)
-router.get('/signup', (req, res) => {
-    if (req.session.loggedIn) {
-        res.redirect('/');
-        return;
-    }
-    res.render('signup');
-});
-
-// GET single post by `id` on home page
+// GET post by `id`
 router.get('/post/:id', (req, res) => {
     Post.findOne({
         where: {
@@ -82,23 +63,38 @@ router.get('/post/:id', (req, res) => {
                 attributes: ['username']
             }
         ]
-    }).then(search4Single => {
-        if (!search4Single) {
-            res.status(404).json({ message: 'Invalid post id; no matching post found.' });
-            return;
-        }
+    }).then(onePost => {
+            if (!onePost) {
+                res.status(404).json({ message: 'Invalid post id; no matching post found.' });
+                return;
+            }
 
-        // Serialize data
-        const post = search4Single.get({ plain: true });
+            const post = onePost.get({ plain: true });
 
-        // Render single post
-        res.render('single-post', {
-            layout: 'main', post, loggedIn: true
+            res.render('single-post', { layout: "main", post, loggedIn: true });
         }).catch(error => {
             console.log(error);
             res.status(500).json(error);
         });
-    });
 });
+
+// Routes user to login if session not in place (otherwise, directs user back to dashboard)
+router.get('/login', (req, res) => {
+    if (req.session.loggedIn) {
+        res.redirect('/dashboard');
+        return;
+    }
+    res.render('login');
+});
+
+// Routes user to home page if signed up/logged in (redirected to signup, otherwise)
+router.get('/signup', (req, res) => {
+    if (req.session.loggedIn) {
+        res.redirect('/dashboard');
+        return;
+    }
+    res.render('signup');
+});
+
 
 module.exports = router;

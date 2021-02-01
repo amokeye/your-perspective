@@ -28,4 +28,4 @@ async function commentFormHandler(event) {
     }
 }
 
-// add query selector
+document.querySelector('.comment-form').addEventListener('submit', commentFormHandler);
