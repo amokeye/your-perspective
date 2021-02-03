@@ -1,4 +1,4 @@
-# your-perspective
+# Your-Perspective
 Put yourself out there by sharing your thoughts through this tech blog!
 
 ## Description
