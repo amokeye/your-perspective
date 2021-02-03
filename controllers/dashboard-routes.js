@@ -122,7 +122,7 @@ router.get('/edit/:id', withAuth, (req, res) => {
     });
 });
 
-// DELETE post
+// DELETE post by `id`
 router.delete('/:id', withAuth, (req, res) => {
     Post.destroy({
         where: {
