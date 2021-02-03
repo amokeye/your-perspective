@@ -2,6 +2,24 @@
 const router = require('express').Router();
 const { User, Post, Comment } = require('../../models');
 
+// POST (create) new user
+router.post('/', (req, res) => {
+    User.create({
+        username: req.body.username,
+        password: req.body.password
+    }).then(newUser => {
+        req.session.save(() => {
+            req.session.user_id = newUser.id;
+            req.session.username = newUser.username;
+            req.session.loggedIn = true;
+            res.json(newUser);
+        });
+    }).catch(error => {
+        console.log(error);
+        res.status(500).json(error);
+    });
+});
+
 // GET all users
 router.get('/', (req, res) => {
     User.findAll({
@@ -51,18 +69,18 @@ router.get('/:id', (req, res) => {
     });
 });
 
-// POST (create) new user
-router.post('/signup', (req, res) => {
-    User.create({
-        username: req.body.username,
-        password: req.body.password
-    }).then(newUser => {
-        req.session.save(() => {
-            req.session.user_id = dbUserData.id;
-            req.session.username = dbUserData.username;
-            req.session.loggedIn = true;
-            res.json(newUser);
-        });
+// DELETE user by `id`
+router.delete('/:id', (req, res) => {
+    User.destroy({
+        where: {
+            id: req.params.id
+        }
+    }).then(userToDelete => {
+        if (!userToDelete) {
+            res.status(404).json({ message: 'Invalid id; no matching user found.' });
+            return;
+        }
+        res.json(userToDelete);
     }).catch(error => {
         console.log(error);
         res.status(500).json(error);
@@ -105,22 +123,46 @@ router.post('/logout', (req, res) => {
     }
 });
 
-// DELETE user by `id`
-router.delete('/:id', (req, res) => {
-    User.destroy({
+//
+router.post('/post', (req, res) => {
+    User.create({
+        username: req.body.username,
+        password: req.body.password
+    })
+    .then(dbUserData => {
+        req.session.save(() => {
+            req.session.user_id = dbUserData.id;
+            req.session.username = dbUserData.username;
+            req.session.loggedIn = true;
+
+            res.json(dbUserData);
+        });
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json(err);
+    });
+});
+
+// GET post by `id`
+router.get('/post/:id', (req, res) => {
+    User.findOne({
         where: {
             id: req.params.id
         }
-    }).then(userToDelete => {
-        if (!userToDelete) {
-            res.status(404).json({ message: 'Invalid id; no matching user found.' });
-            return;
+    })
+    .then(dbUserData => {
+        if (!dbUserData) {
+          res.status(404).json({ message: 'No user found with this id' });
+          return;
         }
-        res.json(userToDelete);
-    }).catch(error => {
-        console.log(error);
-        res.status(500).json(error);
+        res.json(dbUserData);
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json(err);
     });
 });
+
 
 module.exports = router;

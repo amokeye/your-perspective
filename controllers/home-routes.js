@@ -90,7 +90,7 @@ router.get('/login', (req, res) => {
 // Routes user to home page if signed up/logged in (redirected to signup, otherwise)
 router.get('/signup', (req, res) => {
     if (req.session.loggedIn) {
-        res.redirect('/dashboard');
+        res.redirect('/');
         return;
     }
     res.render('signup');
