@@ -17,8 +17,8 @@ const PORT = process.env.PORT || 3001;
 
 // creates session instance with a unique id
 const sess = {
-    secret: process.env.SESS_SECRET,
-    cookie: {},
+    secret: 'my secret',
+    cookie: { maxAge: 3600000 },
     resave: false,
     saveUninitialized: true,
     store: new SequelizeStore ({
